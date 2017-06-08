@@ -27,7 +27,7 @@ class MysteryService(val context: Context) {
     }
 
 
-    private val keyPairGenerator: KeyPairGenerator;
+    private val keyPairGenerator: KeyPairGenerator
 
     private val keyPair: KeyPair
 
@@ -38,6 +38,7 @@ class MysteryService(val context: Context) {
 
     init {
         //generating new key pair, always different
+        //but message was decrypted with already existing keypair, we can't use it
         keyPairGenerator = KeyPairGenerator.getInstance("RSA")
         keyPairGenerator.initialize(2048 * 2)
 
