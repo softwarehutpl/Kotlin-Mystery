@@ -12,20 +12,10 @@ import javax.crypto.Cipher
 
 class MysteryService(val context: Context) {
     fun getSecretMessage(): String {
-        //oh boy, looks like message is encrypted using RSA
-
-        //lets look into assets folder, our hidden message must be here
-        //encrypted message is usually stored as ByteArray
-
-        //but to encrypt we need private key?
-        //I hope someone serialized KeyPair object and stored it in assets
-
-        //Look at sample methods how encryption and decryption is made
-        //can you read secret message?
-
-        return ""
+        val _keyPair = readKeyFromAssets("key_pair.serialized") as KeyPair
+        val data = readBytesFromAssets("message.bytes")
+        return RSADecrypt(data, _keyPair.private)
     }
-
 
     private val keyPairGenerator: KeyPairGenerator
 
@@ -34,7 +24,6 @@ class MysteryService(val context: Context) {
     private val publicKey: PublicKey
 
     private var privateKey: PrivateKey
-
 
     init {
         //generating new key pair, always different
@@ -66,13 +55,6 @@ class MysteryService(val context: Context) {
         val decrypted = String(decryptedBytes)
         System.out.println("Decrypted?????" + decrypted)
         return decrypted
-    }
-
-    fun justSampleDecryptionTest() {
-
-//        val _keyPair = readKeyFromAssets("some_file_name") as KeyPair
-//        val data = readBytesFromAssets("some_file_name")
-//        RSADecrypt(data, _keyPair.private)
     }
 
     private fun readObjectFromFile(filePath: String): Any {
